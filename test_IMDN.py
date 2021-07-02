@@ -31,7 +31,7 @@ device = torch.device('cuda' if cuda else 'cpu')
 
 filepath = opt.test_hr_folder
 if filepath.split('/')[-2] == 'Set5' or filepath.split('/')[-2] == 'Set14':
-    ext = '.bmp'
+    ext = '.jpg'
 else:
     ext = '.png'
 
@@ -49,12 +49,9 @@ start = torch.cuda.Event(enable_timing=True)
 end = torch.cuda.Event(enable_timing=True)
 
 for imname in filelist:
-    im_gt = cv2.imread(imname, cv2.IMREAD_COLOR)[:, :, [2, 1, 0]]  # BGR to RGB
-    im_gt = utils.modcrop(im_gt, opt.upscale_factor)
-    im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1].split('.')[0] + 'x' + str(opt.upscale_factor) + ext, cv2.IMREAD_COLOR)[:, :, [2, 1, 0]]  # BGR to RGB
-    if len(im_gt.shape) < 3:
-        im_gt = im_gt[..., np.newaxis]
-        im_gt = np.concatenate([im_gt] * 3, 2)
+    print(imname)
+    im_l = cv2.imread(imname, cv2.IMREAD_COLOR)[:, :, [2, 1, 0]]  # BGR to RGB
+    if len(im_l.shape) < 3:
         im_l = im_l[..., np.newaxis]
         im_l = np.concatenate([im_l] * 3, 2)
     im_input = im_l / 255.0
@@ -74,21 +71,11 @@ for imname in filelist:
         time_list[i] = start.elapsed_time(end)  # milliseconds
 
     out_img = utils.tensor2np(out.detach()[0])
-    crop_size = opt.upscale_factor
-    cropped_sr_img = utils.shave(out_img, crop_size)
-    cropped_gt_img = utils.shave(im_gt, crop_size)
-    if opt.is_y is True:
-        im_label = utils.quantize(sc.rgb2ycbcr(cropped_gt_img)[:, :, 0])
-        im_pre = utils.quantize(sc.rgb2ycbcr(cropped_sr_img)[:, :, 0])
-    else:
-        im_label = cropped_gt_img
-        im_pre = cropped_sr_img
-    psnr_list[i] = utils.compute_psnr(im_pre, im_label)
-    ssim_list[i] = utils.compute_ssim(im_pre, im_label)
+
 
 
     output_folder = os.path.join(opt.output_folder,
-                                 imname.split('/')[-1].split('.')[0] + 'x' + str(opt.upscale_factor) + '.png')
+                                 imname.split('/')[-1].split('.')[0] + '.jpg')
 
     if not os.path.exists(opt.output_folder):
         os.makedirs(opt.output_folder)
