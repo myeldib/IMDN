@@ -5,16 +5,33 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 [[Poster]](https://github.com/Zheng222/IMDN/blob/master/images/acmmm19_poster.pdf)
 [[ACM DL]](https://dl.acm.org/citation.cfm?id=3351084)
 
+## :sparkles: News
+- Nov 26, 2021. **Add IMDN_RTC tflite model.**
+
 # [ICCV 2019 Workshop AIM report](https://arxiv.org/abs/1911.01249)
 The simplified version of IMDN won the **first place** at Contrained Super-Resolution Challenge (Track1 & Track2). The test code is available at [Google Drive](https://drive.google.com/open?id=1BQkpqp2oZUH_J_amJv33ehGjx6gvCd0L)
 
 # [AI in RTC 2019-rainbow](https://www.dcjingsai.com/common/bbs/topicDetails.html?tid=3787)
 The ultra lightweight version of IMDN won the **first place** at Super Resolution Algorithm Performance Comparison Challenge. (https://github.com/Zheng222/IMDN/blob/53f1dac25e8cd8e11ad65484eadf0d1e31d602fa/model/architecture.py#L79)
 
+Degradation type: Bicubic
+
+[PyTorch Checkpoint](https://github.com/Zheng222/IMDN/blob/master/checkpoints/model_RTC.pth)
+
+[Tensorflow Lite Checkpoint](https://github.com/Zheng222/IMDN/blob/master/checkpoints/imdn_rtc_time.tflite)
+
+input_shape = (1, 720, 480, 3), AI Benchmark(OPPO Find X3-Qualcomm Snapdragon 870, FP16, TFLite GPU Delegate)
+
+<img src="images/imdn_rtc.jpg" width="400">
+
+
 # [AI in RTE 2020-rainbow](https://www.dcjingsai.com/v2/news-detail.html?id=64)
 The down-up version of IMDN won the **second place** at Super Resolution Algorithm Performance Comparison Challenge.
 (https://github.com/Zheng222/IMDN/blob/53f1dac25e8cd8e11ad65484eadf0d1e31d602fa/model/architecture.py#L98)
 
+Degradation type: Downsampling + noise
+
+[Checkpoint](https://github.com/Zheng222/IMDN/blob/master/checkpoints/model_RTE.pth)
 # Hightlights
 1. Our information multi-distillation block (IMDB) with contrast-aware attention (CCA) layer.
 
